@@ -1,0 +1,140 @@
+<!-- Display a loading spinner while the restaurant data is being fetched -->
+<div *ngIf="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+
+<!-- Display the restaurant details when the data has been fetched -->
+<div *ngIf="resto" class="flex flex-col items-center mt-40 mb-40 gap-20">
+  <!-- Display the restaurant name in uppercase -->
+  <h1 class="font-bold text-4xl">{{ resto.name.toUpperCase() }}</h1>
+
+  <!-- Display the restaurant image with a rounded border and shadow -->
+  <img
+    class="rounded-md shadow-xl"
+    style="width: 800px"
+    [src]="resto.imgUrl"
+    alt="{{ resto.name }}"
+  />
+
+  <!-- Display a message if there are no reviews -->
+  <h2 *ngIf="reviews.length == 0" class="font-bold text-4xl">NO REVIEWS...</h2>
+
+  <div class="grid grid-cols-3 gap-20 px-20 relative">
+    <div
+      *ngFor="let rev of reviews"
+      class="flex flex-col gap-5 shadow-xl p-10 rounded-md"
+    >
+      <!-- Display the username of the reviewer -->
+      <div class="flex items-center gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+            clip-rule="evenodd"
+          />
+        </svg>
+
+        <p>{{ rev.username }}</p>
+      </div>
+
+      <!-- Display the rating and comment of the review -->
+      <div class="flex flex-col">
+        <div class="flex items-center">
+          <i
+            *ngFor="let i of [].constructor(rev.rating)"
+            class="fa fa-star text-yellow-400"
+          ></i>
+        </div>
+        <p>{{ rev.comment }}</p>
+      </div>
+
+      <!-- Display a delete button for the review if the user is the author -->
+      <div class="mt-auto">
+        <svg
+          *ngIf="
+            getAuth()?.username === rev.username || getAuth()?.role === 'ADMIN'
+          "
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6 text-red-500 cursor-pointer"
+          (click)="deleteReview(rev.id)"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Display a form for submitting a review -->
+  <form
+    [formGroup]="userRatingForm"
+    (ngSubmit)="submitReview()"
+    class="flex flex-col items-center gap-10"
+  >
+    <!-- Display a dropdown for selecting a rating -->
+    <div>
+      <select class="px-5 py-2 shadow-xl" formControlName="rating" required>
+        <option disabled selected [value]="null">Select a rating</option>
+        <option *ngFor="let i of [1, 2, 3, 4, 5]" [value]="i">{{ i }}</option>
+      </select>
+    </div>
+
+    <!-- Display a validation message if the rating dropdown is invalid -->
+    <div
+      *ngIf="
+        userRatingForm.get('rating')?.invalid &&
+        (userRatingForm.get('rating')?.touched ||
+          userRatingForm.get('rating')?.dirty)
+      "
+      class="text-red-500"
+    >
+      <small>Rating is required </small>
+    </div>
+
+    <div class="flex flex-col items-center gap-5">
+      <!-- Display a textarea for entering a review comment -->
+      <div>
+        <textarea
+          class="shadow-xl px-5 py-2"
+          formControlName="comment"
+          placeholder="Leave a review..."
+          cols="50"
+          rows="5"
+        ></textarea>
+      </div>
+
+      <div
+        *ngIf="
+          userRatingForm.get('comment')?.invalid &&
+          (userRatingForm.get('comment')?.touched ||
+            userRatingForm.get('comment')?.dirty)
+        "
+      >
+        <small
+          *ngIf="
+            userRatingForm.get('comment')?.errors?.['required'] &&
+            userRatingForm.get('comment')?.touched
+          "
+          class="text-red-500"
+        >
+          Comment is required
+        </small>
+      </div>
+    </div>
+
+    <!-- Display a button for submitting the review -->
+    <button class="px-5 py-2 bg-slate-700 text-white shadow-xl" type="submit">
+      Submit Review
+    </button>
+  </form>
+</div>

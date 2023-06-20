@@ -1,0 +1,73 @@
+<nav class="flex items-center justify-between px-20 py-10 shadow-xl">
+  <!-- left list -->
+  <ul>
+    <li class="font-bold text-4xl">YOLP</li>
+  </ul>
+
+  <!-- right list -->
+  <ul class="flex items-center gap-10">
+    <!-- Home -->
+    <li><a routerLink="/">Home</a></li>
+
+    <!-- Login -->
+    <li
+      *ngIf="!getAuth()"
+      class="bg-slate-700 text-white px-5 py-2 rounded-md shadow-xl cursor-pointer transition duration-300 hover:ease-in-out hover:scale-110"
+      routerLink="/login"
+    >
+      Login
+    </li>
+
+    <!-- User menu -->
+    <div
+      *ngIf="getAuth()"
+      #dropdownMenu
+      class="relative inline-block text-left"
+      (click)="dropdownOpen = !dropdownOpen"
+    >
+      <div>
+        <button
+          type="button"
+          class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-5 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >
+          {{ getAuth()?.username }}
+          <svg
+            class="-mr-1 ml-2 h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 6a2 2 0 100-4 2 2 0 000 4zm0 2a2 2 0 100 4 2 2 0 000-4zm0 6a2 2 0 100 4 2 2 0 000-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div
+        *ngIf="dropdownOpen"
+        class="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+      >
+        <div class="py-1 cursor-pointer" role="none">
+          <a
+            href="#"
+            class="text-gray-700 block px-5 py-2 text-sm transition hover:ease-out hover:font-bold hover:scale-105"
+            >Your Profile</a
+          >
+          <a
+            href="#"
+            class="text-gray-700 block px-5 py-2 text-sm transition hover:ease-out hover:font-bold hover:scale-105"
+            >Settings</a
+          >
+          <a
+            (click)="logout()"
+            class="text-gray-700 block px-5 py-2 text-sm transition hover:ease-out hover:font-bold hover:scale-105"
+            >Sign out</a
+          >
+        </div>
+      </div>
+    </div>
+  </ul>
+</nav>

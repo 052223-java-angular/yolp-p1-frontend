@@ -1,0 +1,31 @@
+/* ------------------ Tailwind ------------------ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply font-mono
+}
+
+/* ------------------ Toast ------------------ */
+
+.toast-progress {
+    @apply bg-white;
+}
+
+.toast-success {
+    @apply bg-green-500 text-white py-2 px-10 rounded-md shadow-lg;
+}
+
+.toast-warning {
+    @apply bg-yellow-500 text-white py-2 px-10 rounded-md shadow-lg;
+}
+
+.toast-error {
+    @apply bg-red-500 text-white py-2 px-10 rounded-md shadow-lg;
+}
+
+.toast-bottom-right {
+    @apply fixed right-3 bottom-10;
+}

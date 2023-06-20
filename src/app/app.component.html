@@ -1,0 +1,17 @@
+<!-- This is the main container for the app -->
+<div class="flex flex-col min-h-screen">
+  <!-- This is the navigation bar component -->
+  <app-navbar></app-navbar>
+
+  <!-- This is the main content area of the app -->
+  <div class="flex-grow">
+    <!-- This is where the router will render the appropriate component based on the current route -->
+    <router-outlet> </router-outlet>
+  </div>
+
+  <!-- This is the footer of the app -->
+  <footer class="w-full text-center border-t border-grey p-4">
+    <!-- This displays the current year and the creator of the app -->
+    <p>&copy; {{ currentYear }} created by Bao Duong</p>
+  </footer>
+</div>

@@ -1,0 +1,37 @@
+<!-- Display a loading spinner while the restaurant data is being fetched -->
+<div
+  *ngIf="loading"
+  class="fixed top-0 left-0 w-full h-full flex items-center justify-center"
+>
+  <div class="absolute w-full h-full bg-black opacity-50"></div>
+  <i class="fas fa-spinner fa-spin fa-4x text-white"></i>
+</div>
+
+<div *ngIf="restaurants">
+  <div class="flex items-center justify-between px-20 mt-20">
+    <h1 class="font-bold text-4xl">RESTAURANTS</h1>
+    <button
+      *ngIf="getAuth()?.role === 'ADMIN'"
+      class="px-5 py-2 text-white bg-slate-700 shadow-xl"
+      routerLink="/restaurants/create"
+    >
+      Create new restaurant
+    </button>
+  </div>
+
+  <div class="grid grid-cols-3 gap-20 px-20 mt-20 mb-40">
+    <div
+      *ngFor="let resto of restaurants"
+      class="flex flex-col items-center gap-5 px-5 py-10 shadow-xl cursor-pointer transition hover:ease-out hover:scale-110 duration-300"
+      routerLink="/restaurant/{{ resto.id }}"
+    >
+      <img
+        class="h-full w-full object-cover"
+        src="{{ resto.imgUrl }}"
+        alt="{{ resto.name }}"
+      />
+      <div class="border-t w-full"></div>
+      <p>{{ resto.name }}</p>
+    </div>
+  </div>
+</div>

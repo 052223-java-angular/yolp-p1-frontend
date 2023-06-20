@@ -1,0 +1,167 @@
+<div class="flex flex-col items-center mt-40 mb-40">
+  <form
+    class="flex flex-col p-10 shadow-xl rounded-md gap-10"
+    [formGroup]="restoForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <h1 class="font-bold text-4xl">CREATING RESTAURANT...</h1>
+
+    <div class="flex flex-col items-center gap-3">
+      <label class="flex flex-col gap-3 w-full">
+        Name:
+        <input
+          class="px-5 py-2 shadow-xl rounded-md bg-slate-300 w-full"
+          type="text"
+          formControlName="name"
+        />
+      </label>
+
+      <div
+        class="text-red-500"
+        *ngIf="
+          restoForm.get('name')?.invalid &&
+          (restoForm.get('name')?.dirty || restoForm.get('name')?.touched)
+        "
+      >
+        <small *ngIf="restoForm.get('name')?.errors?.['required']"
+          >Restaurant name is required</small
+        >
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center gap-3">
+      <label class="flex flex-col gap-3 w-full">
+        Address:
+        <input
+          class="px-5 py-2 shadow-xl rounded-md bg-slate-300"
+          type="text"
+          formControlName="address"
+        />
+      </label>
+
+      <div
+        class="text-red-500"
+        *ngIf="
+          restoForm.get('address')?.invalid &&
+          (restoForm.get('address')?.dirty || restoForm.get('address')?.touched)
+        "
+      >
+        <small *ngIf="restoForm.get('address')?.errors?.['required']"
+          >Address is required</small
+        >
+
+        <small *ngIf="restoForm.get('address')?.errors?.['pattern']">
+          Address must be a valid address
+        </small>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center gap-3">
+      <label class="flex flex-col gap-3 w-full">
+        City:
+        <input
+          class="px-5 py-2 shadow-xl rounded-md bg-slate-300"
+          type="text"
+          formControlName="city"
+        />
+      </label>
+
+      <div
+        class="text-red-500"
+        *ngIf="
+          restoForm.get('city')?.invalid &&
+          (restoForm.get('city')?.dirty || restoForm.get('city')?.touched)
+        "
+      >
+        <small *ngIf="restoForm.get('city')?.errors?.['required']"
+          >City is required</small
+        >
+
+        <small *ngIf="restoForm.get('city')?.errors?.['pattern']">
+          City must be a valid city</small
+        >
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center gap-3">
+      <label class="flex flex-col gap-3 w-full">
+        State:
+        <select
+          class="px-5 py-2 rounded-md shadow-xl bg-slate-300"
+          formControlName="state"
+        >
+          <option disabled selected [value]="null">Select a state</option>
+          <option *ngFor="let state of states" [value]="state">
+            {{ state }}
+          </option>
+        </select>
+      </label>
+
+      <div
+        class="text-red-500"
+        *ngIf="
+          restoForm.get('state')?.invalid &&
+          (restoForm.get('state')?.dirty || restoForm.get('state')?.touched)
+        "
+      >
+        <small *ngIf="restoForm.get('state')?.errors?.['required']"
+          >State is required</small
+        >
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center gap-3">
+      <label class="flex flex-col gap-3 w-full">
+        Zip:
+        <input
+          class="px-5 py-2 shadow-xl rounded-md bg-slate-300"
+          type="text"
+          formControlName="zip"
+        />
+      </label>
+
+      <div
+        class="text-red-500"
+        *ngIf="
+          restoForm.get('zip')?.invalid &&
+          (restoForm.get('zip')?.dirty || restoForm.get('zip')?.touched)
+        "
+      >
+        <small *ngIf="restoForm.get('zip')?.errors?.['required']"
+          >Zip is required</small
+        >
+
+        <small *ngIf="restoForm.get('zip')?.errors?.['pattern']"
+          >Zip must be a number</small
+        >
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center gap-3">
+      <label class="flex flex-col gap-3 w-full">
+        Image url:
+        <input
+          class="px-5 py-2 shadow-xl rounded-md bg-slate-300"
+          type="text"
+          formControlName="imgUrl"
+        />
+      </label>
+
+      <div
+        class="text-red-500"
+        *ngIf="
+          restoForm.get('imgUrl')?.invalid &&
+          (restoForm.get('imgUrl')?.dirty || restoForm.get('imgUrl')?.touched)
+        "
+      >
+        <small *ngIf="restoForm.get('imgUrl')?.errors?.['required']"
+          >Image url is required</small
+        >
+      </div>
+    </div>
+
+    <button class="px-5 py-2 bg-slate-800 text-white shadow-xl" type="submit">
+      Create Restaurant
+    </button>
+  </form>
+</div>
